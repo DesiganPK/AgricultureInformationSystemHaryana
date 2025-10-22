@@ -1,0 +1,9 @@
+﻿backend,page,truth_values,ocr_values,matched,recall,precision,status
+tesseract-hin,6,54,56,29,0.537,0.518,ok
+tesseract-hin,7,52,52,50,0.962,0.962,ok
+tesseract-hin,8,42,38,34,0.81,0.895,ok
+tesseract-hin,9,20,24,20,1.0,0.833,ok
+tesseract-hin,35,63,0,0,0.0,0.0,ok
+tesseract-hin,ALL,231,170,133,0.576,0.782,"ok, 57s total"
+paddle,ALL,,,,,,"not run: scanned, no OCR backend worked (paddle: Exception: No available model hosting platforms detected. Please check your network connect)"
+easyocr,ALL,,,,,,"not run: scanned, no OCR backend worked (easyocr: ModuleNotFoundError: No module named 'easyocr')"
