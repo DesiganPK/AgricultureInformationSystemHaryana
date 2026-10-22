@@ -1,21 +1,21 @@
 ﻿metric_id,metric,scope,value,numerator,denominator,status,notes
-M3,Field-level F1 (eval set),digital_pdf,,,,not_computed,no verified references for this agent yet
-M3,Field-level F1 (eval set),hindi_ocr,,,,not_computed,no verified references for this agent yet
+M3,Field-level F1 (eval set),digital_pdf,0.8,12,15,measured,P=0.800 R=0.800; precision is measured on checked fields only
+M3,Field-level F1 (eval set),hindi_ocr,0.8,12,15,measured,P=0.800 R=0.800; precision is measured on checked fields only
 M3,Field-level F1 (eval set),structured_data,,,,not_computed,no verified references for this agent yet
-M3,"Field-level F1 (eval set), macro-average over agents",end_to_end,,,,not_computed,0 of 3 agents have verified cases
-M3,Field-level F1 (eval set),digital_pdf_prices,,,,not_computed,
-M3,Field-level F1 (eval set),digital_pdf_rainfall,,,,not_computed,
-M3,Field-level F1 (eval set),hindi_pdf,,,,not_computed,
+M3,"Field-level F1 (eval set), macro-average over agents",end_to_end,0.8,,,measured,2 of 3 agents have verified cases
+M3,Field-level F1 (eval set),digital_pdf_prices,0.6667,6,9,measured,
+M3,Field-level F1 (eval set),digital_pdf_rainfall,1.0,6,6,measured,
+M3,Field-level F1 (eval set),hindi_pdf,0.8,12,15,measured,
 M3,Field-level F1 (eval set),structured_excel,,,,not_computed,
-M3,Non-English source group F1 (bonus rule),non_english,,,,not_computed,
-M4,Provenance accuracy (locators confirmed by the checker),end_to_end,,,,not_computed,own check of page/row/column; the evaluator re-opens the source
+M3,Non-English source group F1 (bonus rule),non_english,0.8,,,measured,
+M4,Provenance accuracy (locators confirmed by the checker),end_to_end,1.0,30,30,measured,own check of page/row/column; the evaluator re-opens the source
 M1,Source mapping coverage,end_to_end,1.0,41,41,measured,
-M2,Implementation coverage (done or partial),end_to_end,0.0976,4,41,measured,regenerate the map with tools/make_source_map.py after new runs
-M12,Automation rate,end_to_end,1.0,4,4,measured,"from logs/automation_log.csv; includes sandbox runs, see the notes column"
-M11,End-to-end runs reaching 'complete' (fault injection is shown live),end_to_end,1.0,4,4,partial,completion only; correctness is M3; fault-injection result is not measured here
-M14,Mandatory field completeness,database,0.9704,159553,164421,measured,strict: 'unspecified' unit and empty crop/location count as missing
-M15,Validation pass rate,database,0.9556,157128,164421,measured,rules in db/dictionary.md; LGD-code rule not applied (LGD codes not loaded)
-M16,Duplicate rate,database,0.0,0,164421,measured,
+M2,Implementation coverage (done or partial),end_to_end,0.561,23,41,measured,regenerate the map with tools/make_source_map.py after new runs
+M12,Automation rate,end_to_end,0.9302,40,43,measured,"from logs/automation_log.csv; includes sandbox runs, see the notes column"
+M11,End-to-end runs reaching 'complete' (fault injection is shown live),end_to_end,0.9302,40,43,partial,completion only; correctness is M3; fault-injection result is not measured here
+M14,Mandatory field completeness,database,0.7884,172656,218990,measured,strict: 'unspecified' unit and empty crop/location count as missing
+M15,Validation pass rate,database,0.7233,158396,218990,measured,rules in db/dictionary.md; LGD-code rule not applied (LGD codes not loaded)
+M16,Duplicate rate,database,0.0,0,218990,measured,
 M5,Surprise-item F1,end_to_end,,,,not_measured,only measured in the live session
 M6,Tool selection accuracy,end_to_end,,,,not_measured,"not measured: agents are fixed code, no reference trajectories written yet"
 M7,Tool input accuracy,end_to_end,,,,not_measured,not measured: as M6
