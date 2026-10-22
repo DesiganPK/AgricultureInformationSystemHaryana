@@ -1,0 +1,14 @@
+pandas
+openpyxl
+xlrd
+pdfplumber
+pypdfium2
+numpy
+Pillow
+opencv-python-headless
+pytesseract          # needs the system package tesseract-ocr and tesseract-ocr-hin (only used for scanned pages)
+reportlab            # tests only
+# optional OCR backends (tried first when installed; need internet on first run to fetch their models):
+# paddlepaddle
+# paddleocr
+# easyocr

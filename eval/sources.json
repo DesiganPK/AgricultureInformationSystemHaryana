@@ -1,0 +1,26 @@
+{
+ "ICRISAT-TCI District Level Database - Additional Data: Area Production (district and season-wise)": {
+  "agent": "structured_data",
+  "group": "structured_excel",
+  "language": "en",
+  "file": "data/raw/*area*production*"
+ },
+ "Ministry of Agriculture (DES) - District-wise Farm Harvest Prices, Haryana": {
+  "agent": "digital_pdf",
+  "group": "digital_pdf_prices",
+  "language": "en",
+  "file": "data/raw/FHP_HARYANA_98-2001.pdf"
+ },
+ "IMD Chandigarh - District-wise Haryana monsoon rainfall bulletin": {
+  "agent": "digital_pdf",
+  "group": "digital_pdf_rainfall",
+  "language": "en",
+  "file": "data/raw/monsoon_har.pdf"
+ },
+ "Haryana DESA - District Statistical Abstract: Bhiwani": {
+  "agent": "hindi_ocr",
+  "group": "hindi_pdf",
+  "language": "hi",
+  "file": "data/raw/Bhiwani.pdf"
+ }
+}

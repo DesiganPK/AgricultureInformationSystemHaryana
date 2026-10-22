@@ -62,6 +62,27 @@ def english_vocab(texts, kinds):
 
 class OCRUnavailable(RuntimeError): pass
 
+HI_DISTRICTS = {"अंबाला": "Ambala", "अम्बाला": "Ambala", "भिवानी": "Bhiwani", "चरखीदादरी": "Charkhi Dadri", "फरीदाबाद": "Faridabad", "फतेहाबाद": "Fatehabad",
+    "गुरुग्राम": "Gurugram", "गुडगांव": "Gurugram", "गुड़गांव": "Gurugram", "हिसार": "Hisar", "झज्जर": "Jhajjar", "जींद": "Jind", "जीन्द": "Jind", "कैथल": "Kaithal",
+    "करनाल": "Karnal", "कुरुक्षेत्र": "Kurukshetra", "महेंद्रगढ़": "Mahendragarh", "महेन्द्रगढ़": "Mahendragarh", "नूंह": "Nuh", "मेवात": "Nuh", "पलवल": "Palwal",
+    "पंचकूला": "Panchkula", "पानीपत": "Panipat", "रेवाड़ी": "Rewari", "रोहतक": "Rohtak", "सिरसा": "Sirsa", "सोनीपत": "Sonipat", "यमुनानगर": "Yamunanagar"}
+def _hi_norm(s):
+    """Spelling-tolerant form: drop spaces, halant, nukta, anusvara/chandrabindu and the vowel-sign / retroflex variants decoders disagree on."""
+    s = re.sub(r"[\s\u094d\u093c\u0902\u0901]", "", s); return s.replace("ड़", "ड").replace("ढ़", "ढ").replace("ी", "ि").replace("ू", "ु").replace("े", "").replace("ै", "")
+_HI_LOOKUP = sorted(((_hi_norm(k), v) for k, v in HI_DISTRICTS.items()), key=lambda kv: -len(kv[0]))
+def hindi_district(texts, first_pages=3):
+    """District named on a legacy-font cover: decode the first pages and take the earliest district name found (title page names the district first)."""
+    from kruti_dev import convert_line
+    best = None
+    for t in texts[:first_pages]:
+        dec = _hi_norm(" ".join(convert_line(ln.strip()) for ln in t.split("\n")))
+        for key, name in _HI_LOOKUP:
+            i = dec.find(key)
+            if i >= 0 and (best is None or i < best[0]): best = (i, name)
+        if best: return best[1]
+    return None
+
+
 def parse_val(tok):
     """(number or None, raw). '1634-4' -> 1634.4 (this font prints the decimal point as '-'); '..' '--' -> None."""
     t = tok.strip().rstrip("*")
@@ -196,8 +217,13 @@ class HindiOCRAgent(StructuredDataAgent):
         if d is None:
             m2 = re.search(r"Abstract:\s*(.+?)(?:\s*\(|$)", source_name)
             d = canonical(m2.group(1)) if m2 else None
-        if d is None: raise ValueError("district not identified from the cover page or the source name")
-        return d, (m.group(2) if m else None)
+        if d is None: d = hindi_district(texts)                                    # fully legacy-font cover (e.g. Hisar): read the district from the decoded title
+        if d is None: raise ValueError("district not identified from the cover page, the source name or the decoded Hindi cover")
+        ed = m.group(2) if m else None
+        if ed is None:
+            m3 = re.search(r"((?:19|20)\d{2})\s*[&\u2013-]\s*(\d{2})(?!\d)", " ".join(texts[:2]))     # '2010&11' on a legacy cover
+            ed = f"{m3.group(1)}-{m3.group(2)}" if m3 else None
+        return d, ed
 
     def extract(self, path, source_name=""):
         self.skipped_pages, self.rejected_rows, self.flags, self.ocr_pages, self.headers = [], [], [], set(), []

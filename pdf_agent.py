@@ -69,8 +69,9 @@ class DigitalPDFAgent(StructuredDataAgent):
             if sum(len(p.chars) >= 20 for p in pdf.pages) == 0:
                 raise Reroute("hindi_ocr", "no page has a text layer (scanned)")
             sample = " ".join(texts[:5])
-            if legacy_font_score(sample) > 0.2:
-                raise Reroute("hindi_ocr", f"legacy-font text layer (score {legacy_font_score(sample):.2f})")
+            legacy_pages = sum(legacy_font_score(t) > 0.2 for t in texts if len(t) > 50)      # judged page by page over the WHOLE document
+            if legacy_pages >= max(1, -(-len(texts) * 15 // 100)) or legacy_font_score(sample) > 0.2:    # >= 15% of pages (rounded up), at least 1
+                raise Reroute("hindi_ocr", f"legacy-font text layer ({legacy_pages} of {len(texts)} pages)")
             as_of = None
             if cfg.get("as_of"):
                 m = DATE.search(sample)

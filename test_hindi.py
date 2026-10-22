@@ -110,4 +110,10 @@ class T(unittest.TestCase):
         self.assertEqual(route(SRC), "hindi_ocr")
         ag = dict(AGENTS); ag["hindi_ocr"] = self.a
         s = Supervisor([dict(SRC, local_file=self.pdf)], ag); s.run(); self.assertEqual((s.jobs[0].agent, s.jobs[0].status), ("hindi_ocr", "ok"))
+    def test_district_from_fully_legacy_cover(self):
+        """An unseen Hindi district PDF whose cover is entirely legacy font (Hisar) must be identified with no source-name hint."""
+        a = HindiOCRAgent(db_path=os.path.join(tempfile.mkdtemp(), "t.db"), schema="haryana_schema.sql")
+        self.assertEqual(a._district_and_edition(["ftyk Lakkf[;dh; lkjka'k\nfglkj\n2010&11\nftyk lakf[;dh; dk;kZy; fglkj"], "unseen.pdf"), ("Hisar", "2010-11"))
+        with self.assertRaises(ValueError): a._district_and_edition(["lkj.kh ua % 7-4 ftys esa ifjokj dY;k.k"], "unseen.pdf")
+
 if __name__ == "__main__": unittest.main(verbosity=2)

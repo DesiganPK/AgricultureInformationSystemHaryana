@@ -28,7 +28,7 @@
 ## Measured results (Bhiwani.pdf, this machine)
 - 4,820 rows loaded, 0 duplicates, 0 unresolved districts; 69 of 98 pages produced rows; 29 pages skipped (maps, text, English pages); 184 rows rejected for a wrong value count.
 - Units on the 4,820 rows: 166 are fully specified (mostly summary rows); 1,038 get a hectare unit from their table title (`ha`, or `00 ha (as printed)` where the title prints `00`, which is not verified); 3,616 stay `unspecified`. All numbered-table rows are `needs_review=1` because the column meaning sits in the header text.
-- Tests: `test_hindi.py` 12/12, `test_pdf.py` 10/10, `test_structured.py` 8/8 pass.
+- Tests: `test_hindi.py` 13/13, `test_pdf.py` 10/10, `test_structured.py` 8/8 pass.
 - **OCR path, measured.** Five Bhiwani pages were turned into image-only PDFs and compared with the text layer (`eval/ocr_backend_comparison.csv`; reproduce with `python tools/ocr_backend_eval.py Bhiwani.pdf "<source name>"`):
 
 | Backend | Recall | Precision | Notes |
@@ -37,7 +37,7 @@
 | PaddleOCR | not run | not run | installed, but its Devanagari model could not be downloaded here (HuggingFace, ModelScope, AIStudio and BOS unreachable) |
 | EasyOCR | not run | not run | not installed |
 
-**Why this matters.** The text-layer decode gives exact digits; Tesseract on the same pages loses about 4 in 10 values. OCR should only be used where no text layer exists.
+**Why this matters.** The text-layer path copies digits straight from the PDF; Tesseract on the same pages loses about 4 in 10 of those values. OCR should only be used where no text layer exists. Independent check: 14 values on Bhiwani page 8 were compared by eye with the rendered page (all 14 match: numbers, units and the missing `--` cells); the signed references in `eval/` are the formal evidence and are not filled yet.
 
 ## Limitations (what is research, what is our implementation)
 - **Implementation:** only Bhiwani has been run. 19 other Hindi PDFs are untested and may use other layouts. The Hisar PDF had never been run through the agent.
