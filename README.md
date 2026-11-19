@@ -70,6 +70,25 @@ Easiest on a laptop: install Ollama (https://ollama.com), run `ollama pull qwen2
 2. Open `finetune/finetune_qwen_lora.ipynb` in Google Colab with a T4 GPU, upload this project's zip when it asks, run all cells. It scores the base model, trains a LoRA adapter, scores the adapter on the same held-out cases, and writes `eval/adapter_comparison.csv`.
 3. Unzip the `adapter_and_comparison.zip` it gives you into this folder and run with `--llm hf --adapter finetune/adapter_qwen25_agri`.
 
+## Run every source in the inventory
+The district abstract PDFs move: their links on the S3 host (`cdnbbsr.s3waas.gov.in/.../uploads/...`) change when a file is replaced.
+The listing page https://esaharyana.gov.in/district-statistical-abstracts-district-wise/ does not, so every batch run reads it and
+takes each district's current PDF link from there.
+```
+python tools/refresh_links.py                         # see which links changed (nothing is written)
+python tools/refresh_links.py --save --add-missing    # write fresh links into Source_files_Haryana_final.csv (.bak kept); add districts the page lists but the CSV lacks (Faridabad)
+python tools/make_source_map.py Source_files_Haryana_final.csv haryana_full.db docs/source_agent_map.csv
+python batch_run.py --db haryana_full.db --redo       # every source, into a fresh database
+python tools/make_source_map.py Source_files_Haryana_final.csv haryana_full.db docs/source_agent_map.csv   # statuses -> done
+python view_db.py haryana_full.db
+```
+- `batch_run.py` refreshes the links itself on every run and saves changed ones to the CSV (`--no-save-links` to skip).
+- Rows whose URL is a listing page, not a file (State Statistical Abstract, one PDF per year; District Socio-Economic Review), run once per PDF on the page, named `<inventory name> | <title on the page>`.
+- A district missing from the page keeps its CSV URL and is reported; an unreachable page changes nothing.
+- When a file moves, its source keeps one database identity: the URL is updated and the old one kept in `source.link_status`, so re-running adds no duplicate rows.
+- Still manual: the data.gov.in mandi prices (needs an API key).
+- These pages could not be reached from the build machine, so the live refresh was tested only against saved copies of the page structure (`test_links.py`). Run it on your computer.
+
 ## Other commands
 ```
 python batch_run.py --db haryana.db                 # download and run every pending inventory source
@@ -77,7 +96,7 @@ python tools/show_hindi_output.py --html hindi_p8.html     # one Hindi page: raw
 python eval/run_eval.py --db haryana.db             # metrics; writes eval/phase2_metrics.csv
 python db/checks.py haryana.db                      # completeness, validation, duplicates (M14 to M16)
 python tools/make_dump.py haryana.db                # refresh db/dump/haryana_dump.sql.gz
-python test_structured.py; python test_pdf.py; python test_hindi.py; python test_llm.py; python test_web.py     # 8 + 10 + 18 + 14 + 5 tests
+python test_structured.py; python test_pdf.py; python test_hindi.py; python test_llm.py; python test_web.py; python test_links.py     # 8 + 10 + 18 + 14 + 5 + 7 tests
 ```
 
 ## Re-extract the Hindi sources in `haryana.db` (do this once)
@@ -93,7 +112,7 @@ Only Bhiwani could be re-run here, because the other district PDFs are not in th
 
 ## What has been checked, and what has not
 **Checked here**
-- All 55 tests pass.
+- All 62 tests pass.
 - Five files run end to end with the LLM off: `Bhiwani.pdf` 5,917 rows, `PDF_bhiwani_crop_area_production.pdf` 864, the farm harvest prices PDF 1,482, the monsoon PDF 66, and the sample web page 9 (8,338 rows in 14.7 s on a cloud CPU).
 - Pages 1 and 8 of the crop PDF were checked by eye against the database on 19 Nov; four faults found (`@` cells rejecting rows, a merged rice/maize header, HYV area mixed with total area, a misprinted year) are fixed and have regression tests in `test_hindi.py`.
 - The LLM path runs end to end against a stand-in model server, and the stored values are identical with the LLM on and off. On the team's Windows laptop (RTX 5060) the fine-tuned adapter answered all 27 calls for `Bhiwani.pdf` with valid JSON in 252 s.

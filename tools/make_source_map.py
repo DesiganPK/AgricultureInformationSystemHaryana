@@ -12,7 +12,9 @@ with open(out, "w", newline="", encoding="utf-8") as f:
     w = csv.writer(f); w.writerow(["source_name", "url", "modality", "agent", "status", "note"])
     for r in rows:
         n, ag = r["List of sources"], route(r)
+        parts = [k for k in done if k.startswith(n + " | ")]            # a listing page runs once per PDF: "<name> | <title on the page>"
         if n in done: st, note = "done", "extraction_run ok; rows in observation"
+        elif parts: st, note = "done", f"listing page: {len(parts)} PDF(s) loaded"
         elif ag in IMPLEMENTED: st, note = "pending", "agent implemented but this source has not been run yet (flip to done once an ok run exists)"
         else: st, note = "pending", f"{ag} agent not implemented"
         w.writerow([n, r["URLs"], r["Modalities"], ag, st, note])

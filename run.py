@@ -40,9 +40,12 @@ def source_row(path, kind, name, url):
         by_name = [r for r in rows if name and name.lower() in r["List of sources"].lower()]
         by_file = [r for r in rows if base and base in r["URLs"].lower()]
         hit = by_name[0] if len(by_name) == 1 else (by_file[0] if len(by_file) == 1 else None)      # ambiguous names fall through to a generic row
-        if hit: return dict(hit)
+        if hit:
+            hit = dict(hit); hit["match_by_name"] = True              # the same inventory source even if its file URL has changed
+            if url: hit["URLs"] = url                                 # a fresher URL (from the live listing page) wins over the CSV
+            return hit
     modality = {"pdf": "PDF", "xlsx": "XLSX (Excel)", "xls": "XLSX (Excel)", "csv": "CSV", "html": "HTML"}[kind]
-    return {"Team Name": "Team 2", "State": "Haryana", "List of sources": name or os.path.basename(path),
+    return {"Team Name": "Team 2", "State": "Haryana", "List of sources": name or os.path.basename(path), "match_by_name": bool(name and url),
             "URLs": url or file_id(path), "Period Of Interest": None, "Modalities": modality, "Limitations": "", "Extracted Knowledge": ""}
 
 

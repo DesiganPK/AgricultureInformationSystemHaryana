@@ -184,6 +184,11 @@ class StructuredDataAgent(Agent):
             con.execute("insert or ignore into district(name_en,lgd_code) values(?,?)", (d, LGD_CODES.get(d)))
         con.execute("insert or ignore into agent(name) values(?)", (self.name,))
         aid = con.execute("select agent_id from agent where name=?", (self.name,)).fetchone()[0]
+        old = None if con.execute("select 1 from source where url=?", (src["URLs"],)).fetchone() else (
+              con.execute("select source_id, url from source where name=? order by source_id limit 1", (src["List of sources"],)).fetchone()
+              if src.get("match_by_name") else None)
+        if old:                     # same inventory source, new file URL (the host moved it): keep one source, record the move
+            con.execute("update source set url=?, link_status=? where source_id=?", (src["URLs"], f"url updated; previous: {old[1]}"[:900], old[0]))
         con.execute("insert or ignore into source(name,url,source_type,language,period_start) values(?,?,?,?,?)",
                     (src["List of sources"], src["URLs"], self.source_type or ("xlsx" if "xls" in src["URLs"].lower() or "bulkDownload" in src["URLs"] else "csv"),
                      getattr(self, "language", "en"), src.get("Period Of Interest")))

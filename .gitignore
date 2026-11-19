@@ -18,3 +18,5 @@ adapter_and_comparison.zip
 ocr_out/
 # Duplicate of data/raw/Bhiwani.pdf kept at the top level for convenience
 /Bhiwani.pdf
+data/raw/*.url
+*.bak

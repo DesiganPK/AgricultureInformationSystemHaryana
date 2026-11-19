@@ -6,6 +6,10 @@ Put this file in the repo root (next to run.py) and run:
     python batch_run.py --db haryana.db --redo --only "Statistical Abstract"   # re-run sources already loaded (see tools/clear_rows.py)
 Notes
 - Downloads run in parallel (8 threads); extraction runs one file at a time (SQLite is single-writer).
+- Links that keep changing: district abstracts take their PDF link from the live listing page
+  https://esaharyana.gov.in/district-statistical-abstracts-district-wise/ on every run, and the fresh URL is written back
+  into Source_files_Haryana_final.csv (a .bak copy is kept; --no-save-links to skip). An inventory row whose URL is an
+  esaharyana listing page (State Statistical Abstract, District Socio-Economic Review) runs once per PDF on that page.
 - Web pages go to the web_content agent. For the other agents, URLs that return an HTML page
   instead of a PDF/Excel/CSV are skipped (listing pages, API-key pages). Those are listed at the end for manual handling.
 - Every run goes through run.py, so each one appends a real row to logs/automation_log.csv.
@@ -18,39 +22,26 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 RAW = os.path.join(HERE, "data", "raw")
 MAP = os.path.join(HERE, "docs", "source_agent_map.csv")
 IMPLEMENTED = {"structured_data", "digital_pdf", "hindi_ocr", "web_content"}
-DISTRICT_PAGE = "https://esaharyana.gov.in/district-statistical-abstracts-district-wise/"
-ALIASES = {"mewat": "nuh", "gurgaon": "gurugram"}          # page name vs. name in the source map; both spellings are tried
+INVENTORY = os.path.join(HERE, "Source_files_Haryana_final.csv")
 
 
-def discover_district_links():
-    """Read the live listing page and return {district_lowercase: absolute_pdf_url}. Empty dict if the page cannot be read."""
-    from urllib.parse import urljoin
-    try:
-        req = urllib.request.Request(DISTRICT_PAGE, headers={"User-Agent": "Mozilla/5.0"})
-        html = urllib.request.urlopen(req, timeout=60).read().decode("utf-8", "ignore")
-    except Exception as e:
-        print(f"WARNING: could not read {DISTRICT_PAGE} ({type(e).__name__}: {e}); using the CSV URLs for district files")
-        return {}
-    links = {}
-    for tr in re.findall(r"<tr.*?</tr>", html, re.S | re.I):
-        t = re.search(r"District Statistical Abstracts?\s*\(([^)]+)\)", tr, re.I)
-        h = re.search(r'href="([^"]+\.pdf[^"]*)"', tr, re.I)
-        if t and h:
-            links[t.group(1).strip().lower()] = urljoin(DISTRICT_PAGE, h.group(1))
-    print(f"district listing page: {len(links)} district PDF links found")
-    return links
-
-
-def is_district_abstract(row):
-    return "district statistical abstract:" in row["source_name"].lower()
-
-
-def live_url(row, links):
-    name = row["source_name"].split(":", 1)[1].lower()           # e.g. ' mewat (nuh)'
-    for key, url in links.items():
-        if key in name or ALIASES.get(key, "\0") in name:
-            return url
-    return None
+def refresh_and_expand(rows, save_links):
+    """Fresh URLs from the live listing pages (sources_live), written back to the inventory CSV when save_links is on, then every
+    listing-page row expanded to one job per PDF on that page."""
+    import sources_live as sl
+    changes, missing, extra = sl.refresh(rows, name_key="source_name", url_key="url")
+    for n, old, new in changes: print(f"  URL refreshed from the listing page: {n[-45:]}\n    {old}\n -> {new}")
+    for n in missing: print(f"  not on the listing page, keeping the CSV URL: {n}")
+    for d, u in extra: print(f"  listed on the page but not in the inventory: {d} ({u})  -> python tools/refresh_links.py --add-missing")
+    if changes and save_links:
+        import refresh_links_lib as rl
+        rl.write_urls(INVENTORY, {n: new for n, _, new in changes}); print(f"  {len(changes)} URL(s) saved to {os.path.basename(INVENTORY)}")
+    jobs = []
+    for r in rows:
+        sub = sl.expand(r["source_name"], r["url"]) if r["agent"] != "web_content" else [(r["source_name"], r["url"])]
+        if len(sub) != 1 or sub[0][1] != r["url"]: print(f"  listing page expanded: {r['source_name'][:60]} -> {len(sub)} PDF(s)")
+        for name, url in sub: jobs.append(dict(r, source_name=name, url=url))
+    return jobs
 
 
 def fname(row):
@@ -62,7 +53,8 @@ def fname(row):
 
 def download(item):
     row, path = item
-    if os.path.exists(path) and os.path.getsize(path) > 1000:
+    stamp = path + ".url"                                         # which URL the cached file came from
+    if os.path.exists(path) and os.path.getsize(path) > 1000 and (not os.path.exists(stamp) or open(stamp).read().strip() == row["url"]):
         return row, path, "cached"
     try:
         req = urllib.request.Request(row["url"], headers={"User-Agent": "Mozilla/5.0"})
@@ -70,11 +62,11 @@ def download(item):
     except Exception as e:
         return row, path, f"download failed: {type(e).__name__}: {e}"
     if path.endswith(".html"):                                   # a web page is what the web_content agent expects
-        open(path, "wb").write(data); return row, path, "downloaded"
+        open(path, "wb").write(data); open(stamp, "w").write(row["url"]); return row, path, "downloaded"
     if data[:5] == b"%PDF-" or data[:2] == b"PK" or path.endswith(".csv"):
         if path.endswith(".csv") and data.lstrip()[:1] == b"<":
             return row, path, "got an HTML page, not data"
-        open(path, "wb").write(data)
+        open(path, "wb").write(data); open(stamp, "w").write(row["url"])
         return row, path, "downloaded"
     return row, path, "got an HTML page, not a PDF/Excel file"
 
@@ -84,22 +76,15 @@ def main():
     ap.add_argument("--db", default="haryana.db")
     ap.add_argument("--only", default="")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--no-save-links", action="store_true", help="do not write refreshed URLs back into Source_files_Haryana_final.csv")
     ap.add_argument("--redo", action="store_true", help="also re-run sources already marked done (after the agents changed). Clear their old rows first: python tools/clear_rows.py --db DB --agent hindi_ocr")
     a = ap.parse_args()
     os.makedirs(RAW, exist_ok=True)
     rows = [r for r in csv.DictReader(open(MAP, newline="", encoding="utf-8-sig"))
             if (r["status"] == "pending" or a.redo) and r["agent"] in IMPLEMENTED and a.only.lower() in r["source_name"].lower()]
-    links = discover_district_links() if any(is_district_abstract(r) for r in rows) else {}
-    for r in rows:
-        if is_district_abstract(r) and links:
-            u = live_url(r, links)
-            if u:
-                if u != r["url"]: print(f"  URL refreshed from the listing page: {r['source_name'][-30:]}")
-                r["url"] = u                                          # the live page wins over the CSV
-            else:
-                print(f"  not listed on the page any more, keeping the CSV URL: {r['source_name']}")
+    rows = refresh_and_expand(rows, not a.no_save_links)
     items = [(r, fname(r)) for r in rows]
-    print(f"{len(items)} pending sources with an implemented agent")
+    print(f"{len(items)} files to run (pending sources with an implemented agent, listing pages expanded)")
     if a.dry_run:
         for r, p in items:
             print(f"  {r['agent']:<16} {r['source_name'][:70]}")
@@ -109,7 +94,7 @@ def main():
     manual, ok, bad = [], 0, 0
     for row, path, st in got:
         if st in ("cached", "downloaded"):
-            cmd = [sys.executable, os.path.join(HERE, "run.py"), "--input", path, "--source-name", row["source_name"], "--db", a.db]
+            cmd = [sys.executable, os.path.join(HERE, "run.py"), "--input", path, "--source-name", row["source_name"], "--url", row["url"], "--db", a.db]
             r = subprocess.run(cmd, capture_output=True, text=True)
             print((r.stdout.strip().splitlines() or [r.stderr.strip()[-200:]])[-1])
             ok += r.returncode == 0
