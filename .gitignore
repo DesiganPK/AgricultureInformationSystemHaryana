@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+# Databases you build while testing (the project database is shared as db/dump/haryana_dump.sql.gz)
+*.db
+*.db-journal
+*_view.html
+llm_changes.csv
+# Run-time logs that grow with every model call
+logs/llm_calls.jsonl
+# Large model files (download or train them; see the user manual)
+finetune/adapter_*/
+finetune/_smoke_eval/
+adapter_and_comparison.zip
+# OCR scratch output
+ocr_out/
+# Duplicate of data/raw/Bhiwani.pdf kept at the top level for convenience
+/Bhiwani.pdf

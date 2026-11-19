@@ -1,0 +1,32 @@
+{
+ "seed": 7,
+ "train_examples": 1224,
+ "heldout_examples": 200,
+ "train_counts": {
+  "map_columns/gold_synthetic": 960,
+  "map_columns/silver_rules": 22,
+  "route/gold_synthetic": 135,
+  "route/silver_rules": 4,
+  "doc_context/gold_synthetic": 103,
+  "doc_context/silver_rules": 0
+ },
+ "heldout_counts": {
+  "map_columns/gold_synthetic": 147,
+  "map_columns/silver_rules": 0,
+  "route/gold_synthetic": 25,
+  "route/silver_rules": 0,
+  "doc_context/gold_synthetic": 28,
+  "doc_context/silver_rules": 0
+ },
+ "train_files": {
+  "Bhiwani.pdf": "51fd31281ebc0703575bf566aa3d5ca146ece033c85618447ad03e72f0b5c363",
+  "FHP_HARYANA_98-2001.pdf": "03ee1c11c9e03886a6bef4cd5c740c397e7ed30deb91b194c0cde6adf1771f86",
+  "PDF_bhiwani_crop_area_production.pdf": "6f654da2a9e858d15a12d652a6f85944ca44875a20fbc8da2b6cc026395e1929",
+  "monsoon_har.pdf": "54e45d06eb1765f4504264c81a7ef314ceb19ccbeb4859b64148607122d7fc41"
+ },
+ "heldout_files": {},
+ "overlap_files_by_sha256": 0,
+ "overlap_examples_by_prompt_hash": 0,
+ "heldout_dropped_as_duplicates_of_train": 0,
+ "note": "silver_rules labels are the rules' own decisions on real tables and are not human-checked; gold_synthetic labels are known by construction."
+}
