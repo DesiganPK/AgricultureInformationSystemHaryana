@@ -55,6 +55,17 @@ class T(unittest.TestCase):
         os.environ["AGRI_LLM_MAX_CALLS"] = "1"
         self.assertIsNone(llm.ask_json("other", "s", "a different prompt")); self.assertEqual(llm.STATS["over_cap"], 1)
 
+    def test_model_that_cannot_load_is_tried_once_then_rules(self):        # 19 Nov: 26 calls each failed to load Qwen2ForCausalLM
+        os.environ["AGRI_LLM"] = "hf"; os.environ["AGRI_LLM_QUIET"] = "1"; llm.reset()
+        n = [0]
+        def broken(*a):
+            n[0] += 1; raise ModuleNotFoundError("Could not import module 'Qwen2ForCausalLM'")
+        old = llm.CALLERS["hf"]; llm.CALLERS["hf"] = broken
+        try:
+            for i in range(5): self.assertIsNone(llm.ask_json("map_columns", "s", f"prompt {i}"))
+        finally: llm.CALLERS["hf"] = old
+        self.assertEqual(n[0], 1); self.assertTrue(llm._STATE["load_failed"].startswith("ModuleNotFoundError"))
+
     # ---- what is accepted from the model
     def test_known_crops_are_accepted_and_marked(self):
         use_stub(lambda s, u: {"row_label": "district", "columns": [{"c": 3, "crop": "Chillies", "measure": "price", "unit": "Rs/quintal"},

@@ -58,12 +58,17 @@ class Links(unittest.TestCase):
     def test_csv_is_rewritten_with_backup_and_new_district(self):
         d = tempfile.mkdtemp(); p = os.path.join(d, "inv.csv"); shutil.copy(os.path.join(HERE, "Source_files_Haryana_final.csv"), p)
         name = "Haryana DESA - District Statistical Abstract: Bhiwani"
+        rows0 = list(csv.DictReader(open(p, encoding="utf-8-sig")))
+        keep = [r for r in rows0 if "Abstract: Faridabad" not in r["List of sources"]]
+        with open(p, "w", newline="", encoding="utf-8") as f:
+            w = csv.DictWriter(f, fieldnames=list(rows0[0])); w.writeheader(); w.writerows(keep)
+        n0 = len(keep)
         rl.write_urls(p, {name: S3 + "2026/05/new-bhiwani.pdf"})
         rows = list(csv.DictReader(open(p, encoding="utf-8-sig")))
         self.assertEqual(next(r for r in rows if r["List of sources"] == name)["URLs"], S3 + "2026/05/new-bhiwani.pdf")
-        self.assertTrue(os.path.exists(p + ".bak")); self.assertEqual(len(rows), 41)
+        self.assertTrue(os.path.exists(p + ".bak")); self.assertEqual(len(rows), n0)
         self.assertEqual(rl.add_districts(p, [("Faridabad", S3 + "2021/02/2021021834.pdf")]), ["Haryana DESA - District Statistical Abstract: Faridabad"])
-        self.assertEqual(len(list(csv.DictReader(open(p, encoding="utf-8-sig")))), 42)
+        self.assertEqual(len(list(csv.DictReader(open(p, encoding="utf-8-sig")))), n0 + 1)
 
     def test_period_text_removed_from_inventory(self):
         txt = open(os.path.join(HERE, "Source_files_Haryana_final.csv"), encoding="utf-8-sig").read()
