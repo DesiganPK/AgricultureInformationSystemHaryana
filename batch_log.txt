@@ -1,0 +1,135 @@
+  listing page expanded: Haryana DESA - State Statistical Abstract of Haryana (one PD -> 19 PDF(s)
+  listing page expanded: Haryana DESA - District Socio-Economic Review (district-wise -> 20 PDF(s)
+79 files to run (pending sources with an implemented agent, listing pages expanded)
+OK: ICAR-CSSRI - Salt-tolerant rice, wheat and mustard varieties | agent web_content->web_content | rows 0 | rejected 0 | skipped pages 1
+OK: ICAR-CSSRI - Basmati CSR 30 (Yamini) bulletin | agent digital_pdf->digital_pdf | rows 18 | rejected 0 | skipped pages 11
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2024-25 | agent digital_pdf->digital_pdf | rows 38950 | rejected 6824 | skipped pages 351
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2023-24 | agent digital_pdf->digital_pdf | rows 41641 | rejected 6438 | skipped pages 379
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2022-23 | agent digital_pdf->digital_pdf | rows 40811 | rejected 5985 | skipped pages 365
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2021-22 | agent digital_pdf->digital_pdf | rows 43188 | rejected 5862 | skipped pages 351
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2020-21 | agent digital_pdf->digital_pdf | rows 46864 | rejected 6315 | skipped pages 369
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2019-20 | agent hindi_ocr->hindi_ocr | rows 50246 | rejected 7524 | skipped pages 341
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2016-17 | agent digital_pdf->digital_pdf | rows 36269 | rejected 7217 | skipped pages 404
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2018-19 | agent hindi_ocr->hindi_ocr | rows 46601 | rejected 6637 | skipped pages 330
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2017-18 | agent digital_pdf->digital_pdf | rows 39527 | rejected 7116 | skipped pages 392
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2015-16 | agent hindi_ocr->hindi_ocr | rows 33414 | rejected 6440 | skipped pages 363
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2014-15 | agent digital_pdf->digital_pdf | rows 29986 | rejected 7545 | skipped pages 423
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2013-14 | agent hindi_ocr->hindi_ocr | rows 39325 | rejected 7885 | skipped pages 452
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2012-13 | agent hindi_ocr->hindi_ocr | rows 39174 | rejected 7587 | skipped pages 475
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2011-12 | agent hindi_ocr->hindi_ocr | rows 37796 | rejected 7768 | skipped pages 440
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2010-11 | agent hindi_ocr->hindi_ocr | rows 37826 | rejected 7700 | skipped pages 454
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2009-10 | agent hindi_ocr->hindi_ocr | rows 14717 | rejected 11158 | skipped pages 666
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2008-09 | agent hindi_ocr->hindi_ocr | rows 10630 | rejected 1245 | skipped pages 607
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2007-08 | agent hindi_ocr->hindi_ocr | rows 10691 | rejected 1307 | skipped pages 608
+OK: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year) | State Statistical Abstract of Haryana 2006-07 | agent hindi_ocr->hindi_ocr | rows 10689 | rejected 1588 | skipped pages 624
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Panchkula) | agent hindi_ocr->hindi_ocr | rows 0 | rejected 0 | skipped pages 26
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Ambala) | agent hindi_ocr->hindi_ocr | rows 175 | rejected 5 | skipped pages 21
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Kurukshetra) | agent hindi_ocr->hindi_ocr | rows 120 | rejected 37 | skipped pages 53
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Yamunanagar) | agent hindi_ocr->hindi_ocr | rows 359 | rejected 7 | skipped pages 31
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Kaithal) | agent hindi_ocr->hindi_ocr | rows 124 | rejected 9 | skipped pages 18
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Karnal) | agent hindi_ocr->hindi_ocr | rows 94 | rejected 174 | skipped pages 43
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Panipat) | agent hindi_ocr->hindi_ocr | rows 113 | rejected 2 | skipped pages 24
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Sonipat) | agent hindi_ocr->hindi_ocr | rows 0 | rejected 4 | skipped pages 39
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Rohtak) | agent hindi_ocr->hindi_ocr | rows 191 | rejected 4 | skipped pages 19
+FAILED: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Jhajjar) | agent hindi_ocr->hindi_ocr | rows 0 | rejected 0 | skipped pages 99 | no rows found: the pages are scanned images and no OCR backend worked on this machine
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Faridabad) | agent hindi_ocr->hindi_ocr | rows 207 | rejected 0 | skipped pages 18
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Gurgaon) | agent hindi_ocr->hindi_ocr | rows 4 | rejected 2 | skipped pages 37
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Mewat) | agent hindi_ocr->hindi_ocr | rows 71 | rejected 1 | skipped pages 10
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Rewari) | agent hindi_ocr->hindi_ocr | rows 0 | rejected 1 | skipped pages 17
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Mahendragarh) | agent hindi_ocr->hindi_ocr | rows 12 | rejected 2 | skipped pages 18
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Bhiwani) | agent hindi_ocr->hindi_ocr | rows 0 | rejected 0 | skipped pages 19
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Jind) | agent hindi_ocr->hindi_ocr | rows 363 | rejected 5 | skipped pages 35
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Hisar) | agent hindi_ocr->hindi_ocr | rows 201 | rejected 8 | skipped pages 16
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Fatehabad) | agent hindi_ocr->hindi_ocr | rows 245 | rejected 3 | skipped pages 20
+OK: Haryana DESA - District Socio-Economic Review (district-wise) | District Socio-Economic Review(Sirsa) | agent hindi_ocr->hindi_ocr | rows 117 | rejected 16 | skipped pages 33
+OK: Haryana DESA - District Statistical Abstract: Panchkula | agent hindi_ocr->hindi_ocr | rows 350 | rejected 26 | skipped pages 54
+OK: Haryana DESA - District Statistical Abstract: Karnal | agent hindi_ocr->hindi_ocr | rows 2603 | rejected 560 | skipped pages 38
+OK: Haryana DESA - District Statistical Abstract: Bhiwani | agent hindi_ocr->hindi_ocr | rows 5917 | rejected 257 | skipped pages 14
+OK: Haryana DESA - District Statistical Abstract: Ambala | agent hindi_ocr->hindi_ocr | rows 404 | rejected 37 | skipped pages 50
+OK: Haryana DESA - District Statistical Abstract: Panipat | agent hindi_ocr->hindi_ocr | rows 1932 | rejected 356 | skipped pages 27
+OK: Haryana DESA - District Statistical Abstract: Gurgaon | agent hindi_ocr->hindi_ocr | rows 858 | rejected 220 | skipped pages 39
+OK: Haryana DESA - District Statistical Abstract: Jind | agent hindi_ocr->hindi_ocr | rows 2223 | rejected 737 | skipped pages 46
+OK: Haryana DESA - District Statistical Abstract: Kurukshetra | agent hindi_ocr->hindi_ocr | rows 1261 | rejected 241 | skipped pages 40
+OK: Haryana DESA - District Statistical Abstract: Sonipat | agent hindi_ocr->hindi_ocr | rows 2717 | rejected 531 | skipped pages 29
+OK: Haryana DESA - District Statistical Abstract: Mewat (Nuh) | agent hindi_ocr->hindi_ocr | rows 873 | rejected 172 | skipped pages 39
+OK: Haryana DESA - District Statistical Abstract: Hisar | agent hindi_ocr->hindi_ocr | rows 334 | rejected 15 | skipped pages 96
+OK: Haryana DESA - District Statistical Abstract: Yamunanagar | agent hindi_ocr->hindi_ocr | rows 2316 | rejected 217 | skipped pages 23
+OK: Haryana DESA - District Statistical Abstract: Rohtak | agent hindi_ocr->hindi_ocr | rows 1110 | rejected 154 | skipped pages 47
+OK: Haryana DESA - District Statistical Abstract: Fatehabad | agent hindi_ocr->hindi_ocr | rows 2005 | rejected 240 | skipped pages 16
+OK: Haryana DESA - District Statistical Abstract: Kaithal | agent digital_pdf->digital_pdf | rows 4419 | rejected 137 | skipped pages 31
+OK: Haryana DESA - District Statistical Abstract: Jhajjar | agent hindi_ocr->hindi_ocr | rows 1857 | rejected 474 | skipped pages 52
+OK: Haryana DESA - District Statistical Abstract: Mahendragarh | agent hindi_ocr->hindi_ocr | rows 1421 | rejected 261 | skipped pages 68
+OK: Haryana DESA - District Statistical Abstract: Sirsa | agent hindi_ocr->hindi_ocr | rows 1411 | rejected 225 | skipped pages 88
+OK: Haryana DESA - District Statistical Abstract: Faridabad | agent hindi_ocr->hindi_ocr | rows 4538 | rejected 193 | skipped pages 16
+OK: IMD Chandigarh - District-wise Haryana monsoon rainfall bulletin | agent digital_pdf->digital_pdf | rows 1413 | rejected 4 | skipped pages 26
+
+run ok: 60   run failed: 1   skipped as the same file: 2   need manual download: 16
+  - same file as 'Haryana DESA - State Statistical Abstract of Haryana (one PDF per year', not loaded again: Haryana DESA - State Statistical Abstract of Haryana (one PDF per year (Haryana_DESA_State_Statistical_Abstract_of_Haryana_one_PDF_per_year_2024_25_PDF__d3026e66.pdf)
+  - same file as 'Haryana DESA - District Socio-Economic Review (district-wise) | Distri', not loaded again: Haryana DESA - District Statistical Abstract: Rewari (Haryana_DESA_District_Statistical_Abstract_Rewari.pdf)
+  - CGWB - Dynamic Ground Water Resources of Haryana (as on March 2024)
+    https://www.cgwb.gov.in/cgwbpnm/download/1613
+    download failed: URLError: <urlopen error [Errno 2] No such file or directory>
+    to use a file you downloaded yourself, save it as: data\raw\CGWB_Dynamic_Ground_Water_Resources_of_Haryana_as_on_March_2024.pdf
+  - CGWB - NAQUIM District Aquifer Report: Hisar
+    https://cgwb.gov.in/old_website/AQM/NAQUIM_REPORT/Haryan_NCR/Hissar.pdf
+    download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1007)> (try ALLOW_INSECURE_DOWNLOAD=1, or download it in a browser)
+    to use a file you downloaded yourself, save it as: data\raw\CGWB_NAQUIM_District_Aquifer_Report_Hisar.pdf
+  - Ministry of Agriculture (DES) - District-wise Farm Harvest Prices, Haryana
+    https://desagri.gov.in/wp-content/uploads/2021/04/FHP_HARYANA_98-2001.pdf
+    download failed: URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1007)> (try ALLOW_INSECURE_DOWNLOAD=1, or download it in a browser)
+    to use a file you downloaded yourself, save it as: data\raw\Ministry_of_Agriculture_DES_District_wise_Farm_Harvest_Prices_Haryana.pdf
+  - data.gov.in - Current Daily Price of Various Commodities from Various Markets (Mandi)
+    https://data.gov.in/resource/current-daily-price-various-commodities-various-markets-mandi
+    got an HTML page, not data
+    to use a file you downloaded yourself, save it as: data\raw\data_gov_in_Current_Daily_Price_of_Various_Commodities_from_Various_Markets_Mand_751bd7ba.csv
+  - ICRISAT-TCI District Level Database - Additional Data: download index page
+    http://data.icrisat.org/dld/src/additional.html
+    download failed: ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+    to use a file you downloaded yourself, save it as: data\raw\ICRISAT_TCI_District_Level_Database_Additional_Data_download_index_page.html
+  - ICRISAT-TCI District Level Database - Additional Data: Area Production (district and season-wise)
+    http://data.icrisat.org/dldAPI/bulkDownload/district/?fileName=area-production
+    download failed: ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+    to use a file you downloaded yourself, save it as: data\raw\ICRISAT_TCI_District_Level_Database_Additional_Data_Area_Production_district_and_db38dd64.xlsx
+  - ICRISAT-TCI District Level Database - Additional Data: Agriculture Credit
+    http://data.icrisat.org/dldAPI/bulkDownload/district/?fileName=agriculture-credit
+    download failed: ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+    to use a file you downloaded yourself, save it as: data\raw\ICRISAT_TCI_District_Level_Database_Additional_Data_Agriculture_Credit.xlsx
+  - ICRISAT-TCI District Level Database - Additional Data: Groundwater
+    http://data.icrisat.org/dldAPI/bulkDownload/district/?fileName=groundwater
+    download failed: ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+    to use a file you downloaded yourself, save it as: data\raw\ICRISAT_TCI_District_Level_Database_Additional_Data_Groundwater.xlsx
+  - ICRISAT-TCI District Level Database - Additional Data: Fruits
+    http://data.icrisat.org/dldAPI/bulkDownload/district/?fileName=fruits
+    download failed: ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+    to use a file you downloaded yourself, save it as: data\raw\ICRISAT_TCI_District_Level_Database_Additional_Data_Fruits.xlsx
+  - ICRISAT-TCI District Level Database - Additional Data: Vegetables
+    http://data.icrisat.org/dldAPI/bulkDownload/district/?fileName=vegetables
+    download failed: ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+    to use a file you downloaded yourself, save it as: data\raw\ICRISAT_TCI_District_Level_Database_Additional_Data_Vegetables.xlsx
+  - ICRISAT-TCI District Level Database - Additional Data: Spices
+    http://data.icrisat.org/dldAPI/bulkDownload/district/?fileName=spices
+    download failed: ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+    to use a file you downloaded yourself, save it as: data\raw\ICRISAT_TCI_District_Level_Database_Additional_Data_Spices.xlsx
+  - ICRISAT-TCI District Level Database - Additional Data: Cold Storage
+    http://data.icrisat.org/dldAPI/bulkDownload/district/?fileName=cold-storage
+    download failed: ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+    to use a file you downloaded yourself, save it as: data\raw\ICRISAT_TCI_District_Level_Database_Additional_Data_Cold_Storage.xlsx
+  - ICRISAT-TCI District Level Database - Additional Data: Warehouse (WDRA registered)
+    http://data.icrisat.org/dldAPI/bulkDownload/district/?fileName=warehouse
+    download failed: ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+    to use a file you downloaded yourself, save it as: data\raw\ICRISAT_TCI_District_Level_Database_Additional_Data_Warehouse_WDRA_registered.xlsx
+  - ICRISAT-TCI District Level Database - Additional Data: Veterinary Institutions
+    http://data.icrisat.org/dldAPI/bulkDownload/district/?fileName=veterinary-institutions
+    download failed: ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+    to use a file you downloaded yourself, save it as: data\raw\ICRISAT_TCI_District_Level_Database_Additional_Data_Veterinary_Institutions.xlsx
+  - ICRISAT-TCI District Level Database - Additional Data: Surface Runoff
+    http://data.icrisat.org/dldAPI/bulkDownload/district/?fileName=runoff
+    download failed: ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+    to use a file you downloaded yourself, save it as: data\raw\ICRISAT_TCI_District_Level_Database_Additional_Data_Surface_Runoff.xlsx
+  - ICRISAT-TCI District Level Database - Additional Data: Gross District Domestic Product (GDP details)
+    http://data.icrisat.org/dldAPI/bulkDownload/district/?fileName=gdp-details
+    download failed: ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host
+    to use a file you downloaded yourself, save it as: data\raw\ICRISAT_TCI_District_Level_Database_Additional_Data_Gross_District_Domestic_Prod_d7c57c0e.xlsx
+
+Next: python tools/make_source_map.py Source_files_Haryana_final.csv haryana_full2.db docs/source_agent_map.csv   (flip statuses to done)
+      python eval/run_eval.py --db haryana_full2.db   and   python tools/collect_results.py --db haryana_full2.db

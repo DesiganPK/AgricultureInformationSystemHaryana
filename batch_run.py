@@ -17,6 +17,11 @@ Notes
 """
 import argparse, csv, os, re, subprocess, sys, urllib.request
 from concurrent.futures import ThreadPoolExecutor
+try:                      # optional: verify HTTPS with the operating system's certificate store (pip install truststore).
+    import truststore     # Fixes CERTIFICATE_VERIFY_FAILED on sites whose intermediate certificate Python's own bundle lacks
+    truststore.inject_into_ssl()   # (cgwb.gov.in, desagri.gov.in on Windows). Verification stays on.
+except ImportError:
+    pass
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 RAW = os.path.join(HERE, "data", "raw")
@@ -45,7 +50,12 @@ def refresh_and_expand(rows, save_links):
 
 
 def fname(row):
-    base = re.sub(r"[^A-Za-z0-9]+", "_", row["source_name"]).strip("_")[:80]
+    """One local file per URL. The name alone is not enough: listing-page jobs share a long prefix
+    ("... State Statistical Abstract of Haryana | ... 2006-07"), and cutting it at 80 characters made every year (and every
+    district's Socio-Economic Review) write to the same file. A short hash of the URL keeps them apart."""
+    import hashlib
+    base = re.sub(r"[^A-Za-z0-9]+", "_", row["source_name"]).strip("_")[:70].rstrip("_")
+    base += "_" + hashlib.sha1(row["url"].encode("utf-8")).hexdigest()[:8]
     mod = row["modality"].lower()
     ext = ".html" if row["agent"] == "web_content" else ".xlsx" if "xlsx" in mod or "excel" in mod else ".csv" if mod.startswith("csv") else ".pdf"
     return os.path.join(RAW, base + ext)
@@ -100,10 +110,10 @@ def main():
             ok += r.returncode == 0
             bad += r.returncode != 0
         else:
-            manual.append((row["source_name"], row["url"], st))
+            manual.append((row["source_name"], row["url"], st, path))
     print(f"\nrun ok: {ok}   run failed: {bad}   need manual download: {len(manual)}")
-    for n, u, st in manual:
-        print(f"  - {n}\n    {u}\n    {st}")
+    for n, u, st, p in manual:
+        print(f"  - {n}\n    {u}\n    {st}\n    to use a copy downloaded in your browser, save it as: {os.path.relpath(p, HERE)}")
     print("\nNext: python tools/make_source_map.py   (flip statuses to done), then python eval/run_eval.py --db", a.db)
 
 
