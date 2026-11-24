@@ -26,7 +26,7 @@ def log_path(): return _env("AGRI_LLM_LOG", os.path.join(HERE, "logs", "llm_call
 def set_stub(fn): _STATE["stub"] = fn
 def reset():
     """Forget the chosen backend and the cache (tests, or after changing environment variables)."""
-    _STATE.update(backend=None, model=None, note="", hf=None, cache={})
+    _STATE.update(backend=None, model=None, note="", hf=None, cache={}, load_failed="")
     for k in STATS: STATS[k] = 0 if k != "seconds" else 0.0
 
 
@@ -158,6 +158,8 @@ def ask_json(task, system, user, max_tokens=700, doc=""):
     key = hashlib.sha256(f"{task}\0{system}\0{user}".encode()).hexdigest()
     if key in _STATE["cache"]:
         STATS["cache_hits"] += 1; return _STATE["cache"][key]
+    if _STATE.get("load_failed"):                                          # the local model could not be loaded: rules for the rest of the run
+        return None
     if STATS["calls"] >= int(_env("AGRI_LLM_MAX_CALLS", "60")):             # bound the time one document can take; the rest of it runs on rules
         STATS["over_cap"] += 1; return None
     obj = None
@@ -172,6 +174,9 @@ def ask_json(task, system, user, max_tokens=700, doc=""):
                   seconds=round(secs, 3), tokens_in=tin, tokens_out=tout, valid_json=obj is not None, error=err, prompt_sha=key[:12],
                   prompt_chars=len(system) + len(u), output=text[:2000]))
         if err and not STATS.get("first_error"): STATS["first_error"] = err
+        if err and b == "hf" and _STATE["hf"] is None:                    # loading failed (missing package, broken install): do not reload per call
+            _STATE["load_failed"] = err
+            print(f"  LLM: the model could not be loaded ({err}); the rest of this run uses rules only. Check: python llm.py", file=sys.stderr, flush=True)
         if _env("AGRI_LLM_QUIET") != "1":           # one progress line per call, so a slow CPU run does not look frozen
             print(f"  LLM call {STATS['calls']}/{_env('AGRI_LLM_MAX_CALLS', '60')} {task}: {secs:.0f}s, " + ("valid JSON" if obj is not None else err or "no valid JSON"), file=sys.stderr, flush=True)
         if obj is not None or err: break            # a transport error is not retried here: the caller falls back to rules

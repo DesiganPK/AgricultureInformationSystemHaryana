@@ -22,8 +22,7 @@ UA = {"User-Agent": "Mozilla/5.0 (AgriAgent source refresh)"}
 _CACHE = {}
 
 
-def get(url, timeout=60):
-    """Fetch a page as text. An SSL failure is retried without verification only if ALLOW_INSECURE_DOWNLOAD=1 (public pages only)."""
+def _get_once(url, timeout):
     req = urllib.request.Request(url, headers=UA)
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r: return r.read().decode("utf-8", "ignore")
@@ -31,6 +30,20 @@ def get(url, timeout=60):
         if isinstance(getattr(e, "reason", None), ssl.SSLCertVerificationError) and os.environ.get("ALLOW_INSECURE_DOWNLOAD") == "1":
             with urllib.request.urlopen(req, timeout=timeout, context=ssl._create_unverified_context()) as r: return r.read().decode("utf-8", "ignore")
         raise
+
+
+def get(url, timeout=None, tries=None):
+    """Fetch a page as text. The DESA site is often slow: each try waits AGRI_FETCH_TIMEOUT seconds (default 120), and a timeout or
+    dropped connection is retried AGRI_FETCH_TRIES times (default 3), 10 s, 20 s apart. An SSL failure is retried without
+    verification only if ALLOW_INSECURE_DOWNLOAD=1 (public pages only)."""
+    import time
+    timeout = timeout or float(os.environ.get("AGRI_FETCH_TIMEOUT", "120")); tries = tries or int(os.environ.get("AGRI_FETCH_TRIES", "3"))
+    for k in range(tries):
+        try: return _get_once(url, timeout)
+        except (TimeoutError, ConnectionError, OSError) as e:
+            if isinstance(e, urllib.error.HTTPError) or k == tries - 1: raise
+            print(f"  slow or dropped ({type(e).__name__}) on {url}; retrying in {10 * (k + 1)} s ({k + 2}/{tries})")
+            time.sleep(10 * (k + 1))
 
 
 def _text(fragment):

@@ -20,3 +20,6 @@ ocr_out/
 /Bhiwani.pdf
 data/raw/*.url
 *.bak
+data/raw/Haryana_DESA_*
+data/raw/ICAR_*
+results_bundle_*.zip

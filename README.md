@@ -1,5 +1,7 @@
 # AgriAgent, Team 2 (Haryana)
 
+**Team:** Desigan Prasanna Krishnan (2025H1030050P) and Gagan Singh (2025H1030051P), BITS Pilani.
+
 Give it a file (PDF, Excel, CSV or a saved web page) and it loads the tables into one SQLite database, keeping the page, row and column of every value. A supervisor picks one of four agents. Fixed rules do the work; a small LLM (Qwen2.5 by default) can be switched on to decide the things rules cannot, and its answers are checked before they are used.
 
 **The LLM never supplies a number.** Values are copied from the source by code. The LLM only labels: which agent, what a column means (crop, measure, unit), which district a document is about. With the LLM off, everything still runs.
@@ -77,21 +79,28 @@ takes each district's current PDF link from there.
 ```
 python tools/refresh_links.py                         # see which links changed (nothing is written)
 python tools/refresh_links.py --save --add-missing    # write fresh links into Source_files_Haryana_final.csv (.bak kept); add districts the page lists but the CSV lacks (Faridabad)
-python tools/make_source_map.py Source_files_Haryana_final.csv haryana_full.db docs/source_agent_map.csv
-python batch_run.py --db haryana_full.db --redo       # every source, into a fresh database
-python tools/make_source_map.py Source_files_Haryana_final.csv haryana_full.db docs/source_agent_map.csv   # statuses -> done
-python view_db.py haryana_full.db
+python tools/make_source_map.py Source_files_Haryana_final.csv haryana_full2.db docs/source_agent_map.csv   # new database: every source pending
+python batch_run.py --db haryana_full2.db --dry-run   # list the jobs and the file each one saves to
+python batch_run.py --db haryana_full2.db             # every source, into a fresh database
+python tools/make_source_map.py Source_files_Haryana_final.csv haryana_full2.db docs/source_agent_map.csv  # statuses -> done
+python tools/collect_results.py --db haryana_full2.db # results_bundle_<date>.zip to send back
+python view_db.py haryana_full2.db
 ```
 - `batch_run.py` refreshes the links itself on every run and saves changed ones to the CSV (`--no-save-links` to skip).
 - Rows whose URL is a listing page, not a file (State Statistical Abstract, one PDF per year; District Socio-Economic Review), run once per PDF on the page, named `<inventory name> | <title on the page>`.
 - A district missing from the page keeps its CSV URL and is reported; an unreachable page changes nothing.
 - When a file moves, its source keeps one database identity: the URL is updated and the old one kept in `source.link_status`, so re-running adds no duplicate rows.
+- Every job saves to its own file. Before 23 Nov 2026, names longer than 80 characters were cut, so all PDFs of one listing page shared one file and the same file was loaded 18 and 20 times. `haryana_full.db` holds those duplicates; use `haryana_full2.db` built after the fix.
+- The same file is never loaded under two source names in one batch; the summary lists any skipped as "same file as ...".
+- Downloads are tried 3 times. When one still fails (certificate error, connection reset), open the link in a browser, save the file under the path the batch prints, and run the batch again. `ALLOW_INSECURE_DOWNLOAD=1` retries a certificate error without verification (public files only).
+- Scanned PDFs (Rewari) need Tesseract with Hindi: `tesseract-ocr` and `tesseract-ocr-hin`.
 - Still manual: the data.gov.in mandi prices (needs an API key).
 - These pages could not be reached from the build machine, so the live refresh was tested only against saved copies of the page structure (`test_links.py`). Run it on your computer.
 
 ## Other commands
 ```
-python batch_run.py --db haryana.db                 # download and run every pending inventory source
+python batch_run.py --db haryana.db                 # download and run every pending inventory source (see "Run every source in the inventory")
+python tools/collect_results.py --db haryana.db     # bundle results into results_bundle_<date>.zip (small text files only)
 python tools/show_hindi_output.py --html hindi_p8.html     # one Hindi page: raw text, decoded Hindi, stored rows, trace-back
 python eval/run_eval.py --db haryana.db             # metrics; writes eval/phase2_metrics.csv
 python db/checks.py haryana.db                      # completeness, validation, duplicates (M14 to M16)
